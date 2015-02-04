@@ -63,7 +63,6 @@ MEDIA_URL = ''
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
 SETTINGS_ROOT = os.path.dirname(__file__)
-SETTINGS_ROOT = os.path.join(SETTINGS_ROOT,'../')
 print 'in setting_root',SETTINGS_ROOT
 
 STATIC_ROOT = os.path.normpath(os.path.join(SETTINGS_ROOT, "static"))
@@ -78,9 +77,9 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-     ("js", os.path.join(STATIC_ROOT,'js') ),
-    ("css", os.path.join(STATIC_ROOT,'css')),
-    ("img", os.path.join(STATIC_ROOT,'img')),
+     ("js", os.path.join(STATIC_ROOT,'js').replace('\\','/') ),
+    ("css", os.path.join(STATIC_ROOT,'css').replace('\\','/')),
+    ("img", os.path.join(STATIC_ROOT,'img').replace('\\','/')),
 )
 
 # List of finder classes that know how to find static files in
@@ -88,7 +87,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+ #   'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -116,12 +115,17 @@ ROOT_URLCONF = 'urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'wsgi.application'
 
+SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+
+FILE_ROOT = os.path.join(SITE_ROOT, 'files')
+
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(SITE_ROOT, 'files', 'html').replace('\\','/'),
 )
-
+print TEMPLATE_DIRS
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -134,6 +138,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'adbweb',
+    'search',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
