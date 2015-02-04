@@ -23,10 +23,10 @@ urlpatterns = patterns('',
     (r'^file/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.FILE_ROOT}),
     #下载文件
    # (r'^upload/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
-    
+    url(r'^index/', 'views.index'),
     
      #xls
-     url(r'^index/', 'adbweb.views.index'),
+     url(r'^adb/', 'adbweb.views.index'),
       url(r'^ajax/getxy', 'adbweb.views.ajax_getxy'),
       
     #search
